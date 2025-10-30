@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Bibliotecami movies</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🍿🎥✮⋆˙<br></h1>
+
+    <ul id="lista-filmes"></ul>
+
+    <h2>🎶🎬Adicione cinematografia🎬🎶</h2>
+    <form id="form-filme">
+      <input type="text" id="titulo" placeholder="📽Qual é o nome da obra?" required>
+      <input type="number" id="ano" placeholder="🗓️Ano de lançamento:" required>
+       <input type="text" id="genero" placeholder="🎟Qual é o gênero?" required>
+      <button type="submit">Adicionar ao Catálogo</button>
+    </form>
+  </div>
+
+  <script>
+    async function carregarFilmes() {
+      const res = await fetch('/api/filmes');
+      const filmes = await res.json();
+      const lista = document.getElementById('lista-filmes');
+      lista.innerHTML = '';
+      filmes.forEach(f => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${f.titulo}</strong> (${f.ano}) - <em>${f.genero}</em>`;
+        lista.appendChild(li);
+      });
+    }
+
+    document.getElementById('form-filme').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const titulo = document.getElementById('titulo').value;
+      const genero = document.getElementById('genero').value;
+      const ano = parseInt(document.getElementById('ano').value);
+
+      await fetch('/api/filmes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, genero, ano })
+      });
+
+      document.getElementById('form-filme').reset();
+      carregarFilmes();
+    });
+
+    carregarFilmes();
+  </script>
+</body>
+</html>

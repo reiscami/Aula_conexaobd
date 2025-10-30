@@ -1,0 +1,17 @@
+-- Criar banco de dados
+CREATE DATABASE filmes_series;
+USE filmes_series;
+
+-- Criar tabela de filmes/séries
+CREATE TABLE catalogo (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(100),
+  genero VARCHAR(50),
+  ano INT
+);
+
+-- Inserir alguns registros de exemplo
+INSERT INTO catalogo (titulo, genero, ano) VALUES
+('Stranger Things', 'Suspense', 2016),
+('The Witcher', 'Fantasia', 2019),
+('La Casa de Papel', 'Ação', 2017);
